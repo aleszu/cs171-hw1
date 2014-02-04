@@ -5,22 +5,98 @@
   <title>CS171 Homework 1</title>
 
   <style type="text/css">
-  /* YOUR CSS */
+  
+caption {
+	font-weight:bold;
+	border-top:1px solid white;
+	border-left:1px solid white;
+	border-right:1px solid white;
+	}
+
+body {
+	color: white;
+	background-color:#3e3e3e;
+	font-family:Tahoma, sans-serif;
+	font-size:14px;
+} 
+
+table, th, td {
+	color: white;
+	text-align:center;
+	border: 1px solid white;
+	}
+table {
+	border-collapse:collapse;
+	}
+
+.statesNames { font-size:16px;
+color: red;}
+
+	
   </style>
 </head>
 <body>
   <script src="http://d3js.org/d3.v3.min.js"></script>
+  
   <script>
-  d3.tsv("unemp_states_us_nov_2013.tsv", function(error, data){
-
-      var table = d3.select("body").append("table"),
-      tbody = table.append("tbody");
-
+    d3.select("body")
+		.append("h1")
+		.text("Unemployment Rates for States");
+	
+	d3.text("unemp_states_us_nov_2013.tsv", function(error, data){
+	  var parsed = d3.tsv.parseRows(data);
+	  
+	  console.log(data);
+		  
+      var table = d3.select("body").append("table");
+	 
+	  table
+		.append("caption")
+		.text("Unemployment Rates for States Monthly Rankings Seasonally Adjusted Dec. 2013p");
+	  
+	  var tr = table.append("thead").append("tr");
+	  
+	  var tbody = table.append("tbody");
+	  
+	  var th = tr.selectAll("th")
+		.data(parsed[0])
+		.enter()
+		.append("th")
+		.text(function(d,i) { 
+			return d;	
+		}
+		);						
+		
+	  var states = parsed.slice(1);
+		
+	console.log(states);
+	console.log(parsed);
+	 
       var rows = tbody.selectAll("tr")
-      .data(data)
+      .data(states)
       .enter()
-      .append("tr");
+      .append("tr")
+	  .on("mouseover", function(){d3.select(this).style("background-color", "yellow");})
+	  .on("mouseout", function(){d3.select(this).style("background-color", "#3e3e3e");});
+	  
+	 
+	  
+	  
+	   
+	  
+	// .style("color", function(states) {return "red"}); 
+	// tr.classed("statesNames", true);
+	// How do I style just the states column? I can't do states.style because states is essentially just parsed data.
+	// I have to style the actual column.
 
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
       var cells = rows.selectAll("td")
       .data(function(row) {
         return d3.range(Object.keys(row).length).map(function(column, i) {
@@ -31,6 +107,13 @@
       .append("td")
       .text(function(d) { return d; });
       });
+	  
+	  
   </script>
+  
+  
+  
+  
+  
 </body>
 </html>

@@ -29,8 +29,10 @@ table {
 	border-collapse:collapse;
 	}
 
-.statesNames { font-size:16px;
-color: red;}
+.zebra 
+{
+    background-color: #dddddd;
+}
 
 	
   </style>
@@ -72,7 +74,12 @@ color: red;}
 	// states has the first row sliced out
 	console.log(parsed);
 	
-	  var sortFunction = d3.ascending;
+
+	  var asCend = function(){
+		rows.sort(function(a, b) {
+		return d3.ascending(a, b);
+		});
+		};
 	  
       var rows = tbody.selectAll("tr")
       .data(states)
@@ -80,12 +87,15 @@ color: red;}
       .append("tr")
 	  .on("mouseover", function(){d3.select(this).style("background-color", "yellow");})
 	  .on("mouseout", function(){d3.select(this).style("background-color", "#3e3e3e");})
-	  .on("click", function(a, b) {
-  return d3.ascending(a.name, b.name);
+	 // .attr("class", function(d,i) { return "zebra" + i; })
+	  .on("click", function() {
+		asCend();
 		});
+	  
+
 		
-	 console.log("Sorted:", rows.sort());
-	 
+		
+
 		
 		
 	 // tbody.on("click", function(a, b){tr.sort(function(a, b){return b.value - a.value; });
@@ -117,8 +127,8 @@ color: red;}
 	// tr.classed("statesNames", true);
 	// How do I style just the states column? I can't do states.style because states is essentially just parsed data.
 	// I have to style the actual column.
-
-      var cells = rows.selectAll("td")
+	
+	var cells = rows.selectAll("td")
       .data(function(row) {
         return d3.range(Object.keys(row).length).map(function(column, i) {
           return row[Object.keys(row)[i]];
@@ -130,6 +140,9 @@ color: red;}
       });
 	  
 	  
+	
+	
+	
   </script>
   
   

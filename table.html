@@ -37,7 +37,6 @@ color: red;}
 </head>
 <body>
   <script src="http://d3js.org/d3.v3.min.js"></script>
-  
   <script>
     d3.select("body")
 		.append("h1")
@@ -70,33 +69,55 @@ color: red;}
 	  var states = parsed.slice(1);
 		
 	console.log(states);
+	// states has the first row sliced out
 	console.log(parsed);
-	 
+	
+	  var sortFunction = d3.ascending;
+	  
       var rows = tbody.selectAll("tr")
       .data(states)
       .enter()
       .append("tr")
 	  .on("mouseover", function(){d3.select(this).style("background-color", "yellow");})
-	  .on("mouseout", function(){d3.select(this).style("background-color", "#3e3e3e");});
-	  
+	  .on("mouseout", function(){d3.select(this).style("background-color", "#3e3e3e");})
+	  .on("click", function(a, b) {
+  return d3.ascending(a.name, b.name);
+		});
+		
+	 console.log("Sorted:", rows.sort());
 	 
+		
+		
+	 // tbody.on("click", function(a, b){tr.sort(function(a, b){return b.value - a.value; });
+	 // });
+	 
+
+	//  tbody.selectAll("th").on("click", function(a, b){return sortFunction(a[1], b[1]); });
+
 	  
+	//  .sort(function(a, b) {
+	//  return d3.ascending(a[1], b[1]);
+	//  });
+    //  this worked for sorting the data
+ 	
+
+// .on("click", function(e){sortCol();});
+// console.log("Sorted:", rows.sort());
+// var yScale = d3.scale.ordinal().domain(d3.range(parsed.length));		
+// var sortCol = function(){tbody.selectAll("tr").sort(function(a, b) {return a - b;});	};			
 	  
-	   
-	  
+	
+	 // .on('mouseover', function(d,i){d3.selectAll("tr" + i).style("background-color", "yellow");})
+     // .on('mouseout', function(d,i){d3.selectAll("tr" + i).style("background-color", null);});\
+
+	 
+	 
+	 
 	// .style("color", function(states) {return "red"}); 
 	// tr.classed("statesNames", true);
 	// How do I style just the states column? I can't do states.style because states is essentially just parsed data.
 	// I have to style the actual column.
 
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
       var cells = rows.selectAll("td")
       .data(function(row) {
         return d3.range(Object.keys(row).length).map(function(column, i) {

@@ -82,14 +82,32 @@ table {
 				return "#c4c4c4";
 				}
 				else {"#fff";}})
-				});
+				})
+	   .style("background-color", function (d, i) {if(i%2===0) {return "#c4c4c4";} else {"#fff";}})
+	   ;
+	   
+	   var asCend = function() {
+		rows.sort(function(a, b) {
+		return d3.ascending(a[1], b[1]);
+			})
+		.transition();}
+		;
+	   
+	   th.on("click", function(){asCend();});
+			
+	   tbody.selectAll("tr").style("background-color", function (d, i) {if(i%2===0) {return "#c4c4c4";} else {"#fff";}});
+	   
+	
+				
+//	rows.on("click", asCend); 
+	
+	
+
+		
 			
 //	console.log(rows.sort(function (a, b) {return d3.ascending(a[1], b[1]);}));
 
-   rows.style("background-color", function (d, i) {if(i%2==0) {return "#c4c4c4";} else {"#fff"};});
-
-				
-			
+  
 			
 			// i==0 , percent sign is modulus operator, its the remainder of a division, if i divide 5 by 2, % is 1. 
 			//	if(i==0) ; for every pair of rows, this code will be called, a being first, b being last

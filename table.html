@@ -8,22 +8,22 @@
   
 caption {
 	font-weight:bold;
-	border-top:1px solid white;
-	border-left:1px solid white;
-	border-right:1px solid white;
+	border-top:1px solid black;
+	border-left:1px solid black;
+	border-right:1px solid black;
 	}
 
 body {
-	color: white;
-	background-color:#3e3e3e;
+	color: black;
+	background-color:#fff;
 	font-family:Tahoma, sans-serif;
 	font-size:14px;
 } 
 
 table, th, td {
-	color: white;
+	color: black;
 	text-align:center;
-	border: 1px solid white;
+	border: 1px solid black;
 	}
 table {
 	border-collapse:collapse;
@@ -46,7 +46,6 @@ table {
 	
 	d3.text("unemp_states_us_nov_2013.tsv", function(error, data){
 	  var parsed = d3.tsv.parseRows(data);
-	  
 	  console.log(data);
 		  
       var table = d3.select("body").append("table");
@@ -65,64 +64,54 @@ table {
 		.append("th")
 		.text(function(d,i) { 
 			return d;	
-		}
-		);						
+		});						
 		
 	  var states = parsed.slice(1);
 		
 	console.log(states);
 	// states has the first row sliced out
 	console.log(parsed);
-	
-
-	  var asCend = function(){
-		rows.sort(function(a, b) {
-		return d3.ascending(a, b);
-		});
-		};
-	  
+		
       var rows = tbody.selectAll("tr")
       .data(states)
       .enter()
       .append("tr")
 	  .on("mouseover", function(){d3.select(this).style("background-color", "yellow");})
-	  .on("mouseout", function(){d3.select(this).style("background-color", "#3e3e3e");})
-	 // .attr("class", function(d,i) { return "zebra" + i; })
-	  .on("click", function() {
-		asCend();
-		});
-	  
+	  .on("mouseout", function(d,i){d3.select(this).style("background-color", function(d2, j) {
+		if (i%2===0){
+				return "#c4c4c4";
+				}
+				else {"#fff";}})
+				});
+			
+//	console.log(rows.sort(function (a, b) {return d3.ascending(a[1], b[1]);}));
 
-		
-		
+   rows.style("background-color", function (d, i) {if(i%2==0) {return "#c4c4c4";} else {"#fff"};});
 
-		
-		
-	 // tbody.on("click", function(a, b){tr.sort(function(a, b){return b.value - a.value; });
-	 // });
-	 
+				
+			
+			
+			// i==0 , percent sign is modulus operator, its the remainder of a division, if i divide 5 by 2, % is 1. 
+			//	if(i==0) ; for every pair of rows, this code will be called, a being first, b being last
+			// if i==1 we want ascending a[1], i==2 ascending[2]
 
-	//  tbody.selectAll("th").on("click", function(a, b){return sortFunction(a[1], b[1]); });
 
-	  
-	//  .sort(function(a, b) {
-	//  return d3.ascending(a[1], b[1]);
-	//  });
-    //  this worked for sorting the data
- 	
-
-// .on("click", function(e){sortCol();});
-// console.log("Sorted:", rows.sort());
-// var yScale = d3.scale.ordinal().domain(d3.range(parsed.length));		
-// var sortCol = function(){tbody.selectAll("tr").sort(function(a, b) {return a - b;});	};			
-	  
 	
-	 // .on('mouseover', function(d,i){d3.selectAll("tr" + i).style("background-color", "yellow");})
-     // .on('mouseout', function(d,i){d3.selectAll("tr" + i).style("background-color", null);});\
-
+//				
+	  
+	  // i%2===0 will only take 1/2 the stuff
+	  
+	  
+	  // this is saying on click of these th's, find all tr's, and sort them.
+//	  
+			
+			
+	//i represents which of the headers I clicked
 	 
-	 
-	 
+	// everytime you resort youre gonna have to recolor
+	
+	
+	
 	// .style("color", function(states) {return "red"}); 
 	// tr.classed("statesNames", true);
 	// How do I style just the states column? I can't do states.style because states is essentially just parsed data.
@@ -137,6 +126,9 @@ table {
       .enter()
       .append("td")
       .text(function(d) { return d; });
+	  
+	  
+	  
       });
 	  
 	  

@@ -93,7 +93,9 @@ table {
 		.transition();}
 		;
 	   
-	   th.on("click", function(){asCend();});
+	   th.on("click", function(){asCend();}
+//	   function (d, i) {if(i%2===0) {return "#c4c4c4";} else {"#fff";}}
+	 );
 			
 	   tbody.selectAll("tr").style("background-color", function (d, i) {if(i%2===0) {return "#c4c4c4";} else {"#fff";}});
 	   

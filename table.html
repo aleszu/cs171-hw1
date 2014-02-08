@@ -83,30 +83,40 @@ table {
 				}
 				else {"#fff";}})
 				})
-	   .style("background-color", function (d, i) {if(i%2===0) {return "#c4c4c4";} else {"#fff";}})
 	   ;
 	   
-	   var asCend = function() {
+	   // Taken from here http://stackoverflow.com/questions/11369255/what-is-the-most-efficient-way-to-highlight-a-column-of-a-table-on-mouseover-i
+	   rows.selectAll('td')
+        .data( function(d){ return d; } )
+        .enter().append('td')
+            .text(String)
+            .attr('class', function(d,i){ return "col_" + i; })
+            .on('mouseover', function(d,i){
+               d3.selectAll('td.col_' + i)
+                    .style('background-color', 'yellow');
+            })
+            .on('mouseout', function(d,i){
+               d3.selectAll('td.col_' + i)
+                    .style('background-color', null);
+            });
+	   
+	   tbody.selectAll("tr").style("background-color", function (d, i) {if(i%2===0) {return "#c4c4c4";} else {"#fff";}})
+	   ;
+	   
+	   //I need to have several things happen here upon successive clicks
+	   var onClick = function() {
 		rows.sort(function(a, b) {
 		return d3.ascending(a[1], b[1]);
 			})
-		.transition();}
-		;
+		};
+		
+	   th.on("click", function(){onClick();}
+	 
 	   
-	   th.on("click", function(){asCend();}
 //	   function (d, i) {if(i%2===0) {return "#c4c4c4";} else {"#fff";}}
 	 );
-			
-	   tbody.selectAll("tr").style("background-color", function (d, i) {if(i%2===0) {return "#c4c4c4";} else {"#fff";}});
-	   
+			   
 	
-				
-//	rows.on("click", asCend); 
-	
-	
-
-		
-			
 //	console.log(rows.sort(function (a, b) {return d3.ascending(a[1], b[1]);}));
 
   
